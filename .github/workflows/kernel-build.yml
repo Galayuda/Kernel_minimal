@@ -1,9 +1,10 @@
 # ============================================================================
-# GitHub Actions Workflow для сборки ядра Linux 6.19.10
-# Репозиторий: kernel_build
+# GitHub Actions Workflow для сборки МИНИМАЛЬНОГО ядра Linux 6.19.10
+# Репозиторий: Kernel_minimal
+# Конфигурация: minimal_config (1714 строк, -62% от оригинала)
 # ============================================================================
 
-name: Build Linux Kernel 6.19.10-build
+name: Build Linux Kernel 6.19.10-minimal
 
 # Триггеры запуска
 on:
@@ -84,12 +85,12 @@ jobs:
           cd linux-build
 
           if [ "$CONFIG_TYPE" = "custom" ]; then
-            # Используем наш config_kernel из репозитория
-            if [ -f "$GITHUB_WORKSPACE/config_kernel" ]; then
-              cp "$GITHUB_WORKSPACE/config_kernel" .config
-              echo "✅ Использована config_kernel из репозитория"
+            # Используем наш minimal_config из репозитория
+            if [ -f "$GITHUB_WORKSPACE/minimal_config" ]; then
+              cp "$GITHUB_WORKSPACE/minimal_config" .config
+              echo "✅ Использована minimal_config из репозитория (1714 строк)"
             else
-              echo "⚠️ config_kernel не найдена, создаём defconfig"
+              echo "⚠️ minimal_config не найден, создаём defconfig"
               make defconfig
             fi
           else
@@ -99,8 +100,8 @@ jobs:
           fi
 
           # 🔥 КРИТИЧНО: Сохраняем копию .config СРАЗУ (до сборки)
-          cp .config "$GITHUB_WORKSPACE/config_kernel"
-          echo "✅ .config сохранена в \$GITHUB_WORKSPACE/config_kernel"
+          cp .config "$GITHUB_WORKSPACE/minimal_config"
+          echo "✅ .config сохранена в \$GITHUB_WORKSPACE/minimal_config"
 
           # Показываем ключевые опции
           echo ""
@@ -244,7 +245,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: config-${{ github.event.inputs.kernel_version || '6.19.10' }}
-          path: ${{ github.workspace }}/config_kernel
+          path: ${{ github.workspace }}/minimal_config
           retention-days: 30
           if-no-files-found: error
           include-hidden-files: true
