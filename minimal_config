@@ -216,10 +216,13 @@ CONFIG_PERF_EVENTS=y
 CONFIG_SYSTEM_DATA_VERIFICATION=y
 CONFIG_TRACEPOINTS=y
 
-# Kexec — можно выключить для минимума
-# CONFIG_KEXEC_CORE is not set
-# CONFIG_KEXEC is not set
-# CONFIG_CRASH_DUMP is not set
+# Kexec — нужен для корректной перезагрузки на Braswell
+CONFIG_KEXEC_CORE=y
+CONFIG_KEXEC=y
+# CONFIG_KEXEC_FILE is not set
+# CONFIG_KEXEC_JUMP is not set
+CONFIG_CRASH_DUMP=y
+# CONFIG_KEXEC_HANDOVER is not set
 
 #
 # x86 architecture
